@@ -31,6 +31,18 @@ def nearestNeighbor(data, index, featureSet):
             bestLabel = data[i][0]
     return bestLabel
 
+def testAccuracy(data, featureSet):
+    correct = 0
+    for i in range(len(data)):
+        predicted = nearestNeighbor(data, i, featureSet)
+        actual = data[i][0]
+        if predicted == actual:
+            correct += 1
+    return correct / len(data)
+
+#Helper function to clean the trace
+def formatFeatures(featureSet):
+    return "{" + ", ".join(str(f) for f in featureSet) + "}"
 
 def main():
     filename = "SanityCheckDataSet__2.txt"
@@ -46,6 +58,17 @@ def main():
     predicted = nearestNeighbor(data, 0, [1,2])
     actual = data[0][0]
     print(f"Predicted label: {predicted}, Actual label: {actual}")
+
+    numberFeatures = list(range(1, nFeatures + 1))
+    accuracy = testAccuracy(data, numberFeatures)
+    print(f"Running nearest neighbor with features {numberFeatures}: Accuracy = {accuracy * 100:.1f}%")
+
+
+    #test sanity before actual search
+    sanityFeatures = [10, 8, 2]
+    sanityAccuracy = testAccuracy(data, sanityFeatures)
+    print(f"Sanity check accuracy with features {sanityFeatures}: Accuracy = {sanityAccuracy:.3f}")
+    print(formatFeatures([1, 3, 5])) 
 
 if __name__ == "__main__":
     main()
